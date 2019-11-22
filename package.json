@@ -1,0 +1,80 @@
+{
+  "name": "electron-react",
+  "version": "0.0.1",
+  "description": "使用 JavaScript, HTML 和 CSS 构建跨平台的桌面应用",
+  "main": "./src/main/main.js",
+  "sideEffects": false,
+  "build": {
+    "appId": "com.electron-react.app",
+    "productName": "Qr",
+    "compression": "store",
+    "copyright": "Mo.chen",
+    "asar": false,
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "directories": {
+      "output": "setup"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "桌面图标名字"
+    },
+    "files": ["*/**", "build/**/*", "!config/", "!src/renderer/**/*", "!src/utils/**/*", "!node_modules/", "!setup/", "!package.json"]
+  },
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win --x64",
+    "dev": "webpack-dev-server --config config/webpack.config.js --mode development",
+    "dev:webpack": "webpack --config config/webpack.config.js --mode production",
+    "copy": "node config/build.js",
+    "test": "webpack --config config/webpack.test.config.js --mode production"
+  },
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "react": "~16.8.6",
+    "react-dom": "~16.8.6"
+  },
+  "devDependencies": {
+    "antd": "^3.25.2",
+    "babel-cli": "~6.24.1",
+    "babel-loader": "~7.1.5",
+    "babel-plugin-import": "^1.12.2",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "clean-webpack-plugin": "^2.0.2",
+    "css-loader": "~3.1.0",
+    "electron": "~7.1.1",
+    "electron-builder": "~22.1.0",
+    "fs-extra": "^8.1.0",
+    "globby": "^10.0.1",
+    "less": "~3.10.3",
+    "less-loader": "~4.1.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "style-loader": "~0.23.1",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "~4.16.5",
+    "webpack-cli": "~3.2.3",
+    "webpack-dev-server": "~3.7.2"
+  },
+  "keywords": [
+    "Electron",
+    "quick"
+  ],
+  "electronDownload": {
+    "mirror": "https://npm.taobao.org/mirrors/electron/"
+  },
+  "author": "Mo.chen",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:manydots/electron-react.git"
+  },
+  "license": "MIT"
+}
