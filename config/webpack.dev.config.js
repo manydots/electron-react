@@ -36,10 +36,8 @@ module.exports = {
                 }
             }
         }, {
-            test: /\.(css|less)$/,
-            use: [{
-                loader: 'style-loader'
-            }, {
+            test: /\.(c|le)ss$/,
+            use: [MiniCssExtractPlugin.loader, {
                 loader: 'css-loader'
             }, {
                 loader: 'less-loader',
@@ -55,9 +53,8 @@ module.exports = {
     //     "react-dom": "ReactDOM"
     // },
     plugins: [
-        //未分离存在问题
         new MiniCssExtractPlugin({
-            filename: 'css/[name].bundle.css'
+            filename: '[name].bundle.css'
         })
     ],
     optimization: {
