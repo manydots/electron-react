@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+//console.log(process.env.NODE_ENV);
 
 module.exports = {
     entry: {

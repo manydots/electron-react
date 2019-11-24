@@ -1,8 +1,9 @@
 'use strict';
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import axios from 'axios';
+import { isEnv } from 'utils/es';
 import './index.less';
-import { build } from 'utils/es';
 
 class Test extends React.Component {
     constructor(props) {
@@ -13,19 +14,49 @@ class Test extends React.Component {
     }
     componentDidMount() {
         //params data
-        console.log(build)
-     
+        this.onT();
     }
     shouldComponentUpdate() {
         return true;
     }
+    onT() {
+      let prefix = isEnv();
+      let url = `${prefix}/login?t=1234567`;
+      //alert(url)
+      axios({
+        method: 'post',
+        url: url,
+        data: {}
+      }).then(function(res) {
+        console.log(res.data, res.status)
+      });
+    }
     handleSubmit(e) {
+        let self = this;
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                //console.log('Received values of form: ', values);
+                self.onSubmit(values)
             }
         });
+    }
+    onSubmit(values){
+      let prefix = isEnv();
+      let url = `${prefix}/login`;
+      //console.log(url);
+      axios({
+        method:'post',
+        url:url,
+        data: {
+          username: values.username,
+          password: values.password,
+          captcha:values.captcha
+        }
+      }).then(function (res) {
+        console.log(res.data,res.status)
+      });
+      //http://dev.jeeas.cn/captcha.jpg
     }
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -55,6 +86,15 @@ class Test extends React.Component {
                       type="password"
                       placeholder="密码"
                     />,)
+                }
+            </Form.Item>
+
+             <Form.Item>
+             
+                {
+                  getFieldDecorator('captcha', {
+                    rules: [{ required: true, message: '请输入验证码' }],
+                  })(<div><Input className="fl" size="large" style={{width:'40%'}} placeholder="验证码"/><img className="fr" src="http://dev.jeeas.cn/captcha.jpg" /></div>)
                 }
             </Form.Item>
             <Form.Item>

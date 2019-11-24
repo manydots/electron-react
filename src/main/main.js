@@ -6,7 +6,9 @@ const {
   globalShortcut,
   Notification,
   shell,
-  autoUpdater
+  autoUpdater,
+  session,
+  protocol
 } = require('electron');
 const path = require('path');
 const url = require('url');
@@ -25,6 +27,9 @@ let mainWindow;
  * 注册键盘快捷键
  * 其中：label: '切换开发者工具',这个可以在发布时注释掉
  */
+
+
+
 let template = [{
   label: 'Edit ( 操作 )',
   submenu: [{
@@ -198,7 +203,19 @@ function createWindow() {
   Menu.setApplicationMenu(menu);
 
   const entry = process.env.NODE_ENV === 'development' ? `http://localhost:8088` : `file://${__dirname}/index.html`;
+  console.log(`浏览器api地址,file://${__dirname}`);
+
   //console.log(process.env.NODE_ENV)
+  // session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
+  //   console.log('details',details.method)
+  //   //details.url = details.url.replace(/.*\/ntwechat\//ig, 'http://localhost:8088/ntwechat/')
+
+  //   callback({
+  //     cancel: false,
+  //     url: details.url
+  //   });
+  // })
+
 
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, '../../web/e-index.html'),

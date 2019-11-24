@@ -3,7 +3,7 @@ var CleanWebpackPlugin = require('clean-webpack-plugin');
 var path = require('path');
 var fs = require('fs-extra');
 var buildPath = path.join(__dirname, '../build/lib');
-var { build, findSync } = require('../src/utils/index');
+var {build,findSync} = require('../src/utils/index');
 
 module.exports = (env, argv) => {
 	if (argv.mode === 'production') {
@@ -22,6 +22,17 @@ module.exports = (env, argv) => {
 		// 	"react": "React",
 		// 	"react-dom": "ReactDOM"
 		// };
+		config.devServer.proxy = {
+			'/devAPI': {
+				target: 'http://dev.jeeas.cn',
+				pathRewrite: {
+					'^/devAPI': ''
+				},
+				changeOrigin: true, // target是域名的话，需要这个参数，
+				secure: false, // 设置支持https协议的代理
+			}
+		};
+
 		if (!fs.existsSync(buildPath) || findSync(buildPath).length <= 2) {
 			build();
 		};

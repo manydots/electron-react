@@ -1,4 +1,3 @@
-
 function debounce(fn, delay, immediate) {
 	let timer;
 	return function() {
@@ -21,18 +20,17 @@ function debounce(fn, delay, immediate) {
 			}, delay);
 		}
 	}
-}
-
-
-function build() {
-
-}
-
-function findSync(startPath) {
-	let result = [];
 };
 
+function isEnv() {
+	if (process.env.NODE_ENV === 'development') {
+		return '/devAPI';
+	} else if (process.env.NODE_ENV === 'production') {
+		return 'http://dev.jeeas.cn';
+	}
+};
 
 export {
-	debounce,build,findSync
+	debounce,
+	isEnv
 };
