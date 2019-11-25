@@ -3,7 +3,7 @@ var CleanWebpackPlugin = require('clean-webpack-plugin');
 var path = require('path');
 var fs = require('fs-extra');
 var buildPath = path.join(__dirname, '../build/lib');
-var {build,findSync} = require('../src/utils/index');
+var { build,findSync } = require('../src/utils/index');
 
 module.exports = (env, argv) => {
 	if (argv.mode === 'production') {
@@ -30,7 +30,15 @@ module.exports = (env, argv) => {
 				},
 				changeOrigin: true, // target是域名的话，需要这个参数，
 				secure: false, // 设置支持https协议的代理
-			}
+			},
+			'/musicAPI': {
+				target: 'https://music.jeeas.cn',
+				pathRewrite: {
+					'^/musicAPI': ''
+				},
+				changeOrigin: true,
+				secure: false
+			},
 		};
 
 		if (!fs.existsSync(buildPath) || findSync(buildPath).length <= 2) {

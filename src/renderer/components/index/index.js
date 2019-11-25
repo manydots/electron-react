@@ -1,8 +1,7 @@
 'use strict';
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import axios from 'axios';
-import { isEnv } from 'utils/es';
+import { axios } from 'utils/axios';
 import './index.less';
 
 class Test extends React.Component {
@@ -14,22 +13,10 @@ class Test extends React.Component {
     }
     componentDidMount() {
         //params data
-        this.onT();
+        this.onT()
     }
     shouldComponentUpdate() {
         return true;
-    }
-    onT() {
-      let prefix = isEnv();
-      let url = `${prefix}/login?t=1234567`;
-      //alert(url)
-      axios({
-        method: 'post',
-        url: url,
-        data: {}
-      }).then(function(res) {
-        console.log(res.data, res.status)
-      });
     }
     handleSubmit(e) {
         let self = this;
@@ -41,20 +28,34 @@ class Test extends React.Component {
             }
         });
     }
+    onT() {
+      let self = this;
+      axios({
+        method: 'get',
+        url: '/v1/search',
+        data:{
+          apiType:'musicAPI'
+        },
+        params:{
+          s:'千里之外'
+        }
+      }).then(function(res) {
+        console.log(res)
+      });
+    }
     onSubmit(values){
-      let prefix = isEnv();
-      let url = `${prefix}/login`;
-      //console.log(url);
+      let self = this;
       axios({
         method:'post',
-        url:url,
+        url:'/commonuser/login',
         data: {
+          apiType:'devAPI',
           username: values.username,
           password: values.password,
           captcha:values.captcha
         }
       }).then(function (res) {
-        console.log(res.data,res.status)
+        console.log(res)
       });
       //http://dev.jeeas.cn/captcha.jpg
     }
@@ -93,7 +94,7 @@ class Test extends React.Component {
              
                 {
                   getFieldDecorator('captcha', {
-                    rules: [{ required: true, message: '请输入验证码' }],
+                    rules: [{ required: false, message: '请输入验证码' }],
                   })(<div><Input className="fl" size="large" style={{width:'40%'}} placeholder="验证码"/><img className="fr" src="http://dev.jeeas.cn/captcha.jpg" /></div>)
                 }
             </Form.Item>
