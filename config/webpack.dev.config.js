@@ -11,6 +11,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, '../build'), //输出文件的绝对路径
         filename: '[name].js',
+        chunkFilename: 'index/[name].js'
     },
     resolve: {
         extensions: [".jsx", ".js", ".json"],
@@ -55,21 +56,38 @@ module.exports = {
     // },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: '[name].bundle.css'
-        })
+            filename: '[name].bundle.css',
+            chunkFilename: 'index/[name].css'
+        }),
+        new webpack.HashedModuleIdsPlugin()
     ],
     optimization: {
         splitChunks: {
-            //chunks: "all",//开发模式异常
             cacheGroups: {
-                commons: {
+                // commons: {
+                //     name: 'lib/commons',
+                //     chunks: 'initial',
+                //     minChunks: 2
+                // },
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    chunks: 'initial',
+                    enforce: true,
+                    priority: 10,
+                    name: 'chunks/vendor'
+                },
+                common: {
                     chunks: "all",
-                    name: "lib/commons",
-                    chunks: "initial",
-                    minChunks: 2
-                }
+                    minChunks: 2,
+                    name: 'chunks/common',
+                    enforce: true,
+                    priority: 5
+                },
             }
         },
+        // runtimeChunk: {
+        //     "name": "manifest"
+        // },
         minimizer: [
             new UglifyJsPlugin({
                 cache: true,

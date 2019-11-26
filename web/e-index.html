@@ -11,16 +11,17 @@
       //同样的，你也可以在此进程中引入其他文件 使用 nodeRequire 替代 require ;
     </script>
     <!-- electron打包资源 -->
-    <link rel="stylesheet" type="text/css" href="../build/index/index.bundle.css">
+    <link rel="stylesheet" type="text/css" href="./index/index.bundle.css">
+    <link rel="stylesheet" type="text/css" href="./index/chunks/common.css">
 
     <!-- preload.js下预加载资源 -->
-    <!-- <script src="../build/lib/vendor.js"></script> -->
-    <!-- <script src="../build/lib/commons.js"></script> -->
-    
-    
+    <!-- <script src="./lib/vendors.js"></script>
+    <script src="./index/chunks/vendor.js"></script>
+    <script src="./index/chunks/common.js"></script> -->
+   
   </head>
   <body>
     <div id="containers"></div>
-    <!-- <script type="text/javascript" src="../build/index/index.js"></script> -->
+    <!-- <script type="text/javascript" src="./index/index.js"></script> -->
   </body>
 </html>

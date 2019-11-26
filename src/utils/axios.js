@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 //创建axios实例
-const pending = {}
+const pending = {};
 const CancelToken = axios.CancelToken;
 const service = axios.create({
   baseURL: process.env.BASE_API, //node环境的不同，对应不同的baseURL

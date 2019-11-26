@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/index/index.js';
-import './default.less';
+import BasicRoute from './routes';
 
-ReactDOM.render(<App />, document.getElementById('containers'))
+ReactDOM.render(<BasicRoute />, document.getElementById('containers'))

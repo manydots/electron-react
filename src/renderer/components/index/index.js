@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox,message } from 'antd';
 import { axios } from 'utils/axios';
 import './index.less';
 
@@ -33,31 +33,43 @@ class Test extends React.Component {
       axios({
         method: 'get',
         url: '/v1/search',
-        data:{
-          apiType:'musicAPI'
+        data: {
+          apiType: 'musicAPI'
         },
-        params:{
-          s:'千里之外'
+        params: {
+          s: '千里之外'
         }
       }).then(function(res) {
-        console.log(res)
+        if (res.code == 200) {
+          message.success('search songs success.');
+        } else {
+          message.error('search songs error.');
+        };
       });
     }
-    onSubmit(values){
+    onSubmit(values) {
       let self = this;
       axios({
-        method:'post',
-        url:'/commonuser/login',
+        method: 'post',
+        url: '/commonuser/login',
         data: {
-          apiType:'devAPI',
+          apiType: 'devAPI',
           username: values.username,
           password: values.password,
-          captcha:values.captcha
+          captcha: values.captcha
         }
-      }).then(function (res) {
-        console.log(res)
+      }).then(function(res) {
+        if (res.code == 0) {
+
+          message.success(res.msg);
+          setTimeout(function() {
+            self.props.history.push('/search')
+          }, 1500);
+          
+        } else {
+          message.error(res.msg);
+        }
       });
-      //http://dev.jeeas.cn/captcha.jpg
     }
     render() {
         const { getFieldDecorator } = this.props.form;

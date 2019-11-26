@@ -1,3 +1,5 @@
+import React from 'react';
+
 function debounce(fn, delay, immediate) {
 	let timer;
 	return function() {
@@ -30,7 +32,54 @@ function isEnv() {
 	}
 };
 
+function renderHtml() {
+  return (<div className="spinner">
+        <div className="spinner-container container1">
+	        <div className="circle1">&nbsp;</div>
+	        <div className="circle2">&nbsp;</div>
+	        <div className="circle3">&nbsp;</div>
+	        <div className="circle4">&nbsp;</div>
+      	</div>
+      <div className="spinner-container container2">
+        <div className="circle1">&nbsp;</div>
+        <div className="circle2">&nbsp;</div>
+        <div className="circle3">&nbsp;</div>
+        <div className="circle4">&nbsp;</div>
+      </div>
+      <div className="spinner-container container3">
+        <div className="circle1">&nbsp;</div>
+        <div className="circle2">&nbsp;</div>
+        <div className="circle3">&nbsp;</div>
+        <div className="circle4">&nbsp;</div>
+      </div>
+    </div>);
+}
+
+function checkPath(ctx, notNeedDeal) {
+    let notNeed = false;
+    for (let item of notNeedDeal) {
+        if (item.type == 'startsWith') {
+            for (let v of item.path.split(',')) {
+                if (ctx.url.startsWith(v)) {
+                    notNeed = true;
+                    break;
+                }
+            }
+
+        } else if (item.type == 'endsWith') {
+            for (let v of item.path.split(',')) {
+                if (ctx.url.endsWith(v)) {
+                    notNeed = true;
+                    break;
+                }
+            }
+        }
+    }
+    return notNeed;
+}
 export {
 	debounce,
-	isEnv
+	isEnv,
+	renderHtml,
+	checkPath
 };

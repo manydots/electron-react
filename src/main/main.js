@@ -203,22 +203,13 @@ function createWindow() {
   Menu.setApplicationMenu(menu);
 
   const entry = process.env.NODE_ENV === 'development' ? `http://localhost:8088` : `file://${__dirname}/index.html`;
-  console.log(`浏览器api地址,file://${__dirname}`);
-
+  //console.log(`浏览器api地址,file://${__dirname}`);
   //console.log(process.env.NODE_ENV)
-  // session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
-  //   console.log('details',details.method)
-  //   //details.url = details.url.replace(/.*\/ntwechat\//ig, 'http://localhost:8088/ntwechat/')
-
-  //   callback({
-  //     cancel: false,
-  //     url: details.url
-  //   });
-  // })
+  
 
 
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, '../../web/e-index.html'),
+    pathname: path.join(__dirname, '../../build/e-index.html'),
     protocol: 'file:',
     slashes: true
   }));
@@ -231,7 +222,7 @@ function createWindow() {
 
     let isOpen = false;
     //Ctrl+Shift+I
-    const ret = globalShortcut.register('CmdOrCtrl+U', function() {
+    const ret = globalShortcut.register('CmdOrCtrl+F12', function() {
       if (isOpen == false) {
         mainWindow.webContents.openDevTools();
         isOpen = true;

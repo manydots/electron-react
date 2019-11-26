@@ -1,6 +1,8 @@
 //预加载资源
-require('../../build/lib/commons');
-require('../../build/lib/vendor');
+
+require('../../build/lib/vendors');
+require('../../build/index/chunks/vendor');
+require('../../build/index/chunks/common');
 window.addEventListener('DOMContentLoaded', function() {
 
 	window.onload = function() {
