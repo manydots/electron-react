@@ -1,6 +1,6 @@
 {
-  "name": "electron-react",
-  "version": "0.0.1",
+  "name": "jeea",
+  "version": "0.0.2",
   "description": "使用JavaScript, HTML 和 CSS 构建跨平台的桌面应用",
   "main": "./src/main/main.js",
   "sideEffects": false,
@@ -81,8 +81,10 @@
     "webpack-dev-server": "~3.7.2"
   },
   "keywords": [
-    "Electron",
-    "quick"
+    "electron",
+    "antd",
+    "react",
+    "nodejs"
   ],
   "electronDownload": {
     "mirror": "https://npm.taobao.org/mirrors/electron/"
