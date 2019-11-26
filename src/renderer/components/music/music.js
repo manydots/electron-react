@@ -1,20 +1,23 @@
 'use strict';
 import React from 'react';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon, Modal, Button } from 'antd';
+import store from 'store';
 import { axios } from 'utils/axios';
+import Search from './search';
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
+const { confirm } = Modal;
 
-class Search extends React.Component {
+class Music extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          
+           userName:store.get('Authorization') ? store.get('Authorization').userName : 'guest'
         };
     }
     componentDidMount() {
-        
+        //console.log(store.get('Authorization'))
     }
     shouldComponentUpdate() {
         return true;
@@ -38,58 +41,66 @@ class Search extends React.Component {
         }
       });
     }
+    onExit() {
+      let self = this;
+      confirm({
+        title: '温馨提示',
+        content: '确定退出本次登录吗？',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk() {
+          console.log('OK');
+          store.set('Authorization',null);
+          self.props.history.push('/');
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
+    }
     render() {
         return (
-          <div className="Search-Form">
+          <div className="Music-Form">
                <Layout>
               <Header className="header">
-                <div className="logo" />
                 <Menu
                   theme="dark"
                   mode="horizontal"
-                  defaultSelectedKeys={['2']}
+                  defaultSelectedKeys={['1']}
                   style={{ lineHeight: '64px' }} >
-                  <Menu.Item key="1">nav 1</Menu.Item>
-                  <Menu.Item key="2">nav 2</Menu.Item>
-                  <Menu.Item key="3">nav 3</Menu.Item>
+                  <Menu.Item key="1">欢迎，{this.state.userName}！</Menu.Item>
+                  <Menu.Item key="2" onClick={this.onExit.bind(this)}>退出登录</Menu.Item>
                 </Menu>
               </Header>
               <Content style={{ padding: '0 50px' }}>
                 <Breadcrumb style={{ margin: '16px 0' }}>
-                  <Breadcrumb.Item>Home</Breadcrumb.Item>
-                  <Breadcrumb.Item>List</Breadcrumb.Item>
-                  <Breadcrumb.Item>App</Breadcrumb.Item>
+                  <Breadcrumb.Item>网易云音乐</Breadcrumb.Item>
+                  <Breadcrumb.Item>音乐</Breadcrumb.Item>
+                  <Breadcrumb.Item>搜索</Breadcrumb.Item>
                 </Breadcrumb>
                 <Layout style={{ padding: '24px 0', background: '#fff' }}>
                   <Sider width={200} style={{ background: '#fff' }}>
                     <Menu
                       mode="inline"
-                      defaultSelectedKeys={['1']}
-                      defaultOpenKeys={['sub1']}
+                      defaultSelectedKeys={['sub-index']}
+                      defaultOpenKeys={['sub-index']}
                       style={{ height: '100%' }} >
                       <Menu.Item key="sub-index">
                         <Icon type="pie-chart" />
-                        <span>Option</span>
+                        <span>搜索音乐</span>
                       </Menu.Item>
                       <SubMenu
                         key="sub1"
-                        title={<span><Icon type="user" />subnav 1</span>} >
+                        title={<span><Icon type="user" />占位目录1</span>} >
                         <Menu.Item key="1">option1</Menu.Item>
                         <Menu.Item key="2">option2</Menu.Item>
                         <Menu.Item key="3">option3</Menu.Item>
                         <Menu.Item key="4">option4</Menu.Item>
                       </SubMenu>
                       <SubMenu
-                        key="sub2"
-                        title={<span><Icon type="laptop" />subnav 2</span>} >
-                        <Menu.Item key="5">option5</Menu.Item>
-                        <Menu.Item key="6">option6</Menu.Item>
-                        <Menu.Item key="7">option7</Menu.Item>
-                        <Menu.Item key="8">option8</Menu.Item>
-                      </SubMenu>
-                      <SubMenu
                         key="sub3"
-                        title={<span><Icon type="notification" />subnav 3</span>} >
+                        title={<span><Icon type="notification" />占位目录2</span>} >
                         <Menu.Item key="9">option9</Menu.Item>
                         <Menu.Item key="10">option10</Menu.Item>
                         <Menu.Item key="11">option11</Menu.Item>
@@ -97,11 +108,12 @@ class Search extends React.Component {
                       </SubMenu>
                     </Menu>
                   </Sider>
-                  <Content style={{ padding: '0 24px', minHeight: 280 }}>
+                  <Content className="t344" style={{ padding: '0 24px', minHeight: 600,overflowX: 'visible' }}>
                     <Breadcrumb style={{ margin: '16px 0' }}>
-                      <Breadcrumb.Item>Index</Breadcrumb.Item>
-                      <Breadcrumb.Item>Content</Breadcrumb.Item>
+                      <Breadcrumb.Item>首页</Breadcrumb.Item>
+                      <Breadcrumb.Item>搜索</Breadcrumb.Item>
                     </Breadcrumb>
+                    <Search />
                 </Content>
                 </Layout>
               </Content>
@@ -113,5 +125,4 @@ class Search extends React.Component {
 
 }
 
-
-export default Search;
+export default Music;

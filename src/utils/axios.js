@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from 'store';
 
 //创建axios实例
 const pending = {};
@@ -57,6 +58,7 @@ function isEnv(apiType) {
 service.interceptors.request.use(
   config => {
     // 发送请求之前，要做的业务
+    //console.log(store.get('Authorization'));
     let request = getRequestIdentify(config, true);
     //console.log(request)
     removePending(request, true);

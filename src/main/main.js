@@ -187,8 +187,8 @@ if (process.platform === 'win32') {
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 990,
+    height: 680,
     //autoHideMenuBar:true,
     webPreferences: {
       javascript: true,

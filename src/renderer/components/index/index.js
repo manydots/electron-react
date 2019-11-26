@@ -1,6 +1,8 @@
 'use strict';
 import React from 'react';
+import store from 'store';
 import { Form, Icon, Input, Button, Checkbox,message } from 'antd';
+import { formatDate } from 'utils/es';
 import { axios } from 'utils/axios';
 import './index.less';
 
@@ -12,8 +14,15 @@ class Test extends React.Component {
         };
     }
     componentDidMount() {
-        //params data
-        this.onT()
+      let self = this;
+      let Author = store.get('Authorization');
+      //简单弱验证
+      if (Author && Author.isLogin) {
+        setTimeout(function() {
+          message.loading('授权登录中...', 1);
+          self.props.history.push('/music');
+        }, 1200);
+      }
     }
     shouldComponentUpdate() {
         return true;
@@ -28,25 +37,6 @@ class Test extends React.Component {
             }
         });
     }
-    onT() {
-      let self = this;
-      axios({
-        method: 'get',
-        url: '/v1/search',
-        data: {
-          apiType: 'musicAPI'
-        },
-        params: {
-          s: '千里之外'
-        }
-      }).then(function(res) {
-        if (res.code == 200) {
-          message.success('search songs success.');
-        } else {
-          message.error('search songs error.');
-        };
-      });
-    }
     onSubmit(values) {
       let self = this;
       axios({
@@ -60,12 +50,16 @@ class Test extends React.Component {
         }
       }).then(function(res) {
         if (res.code == 0) {
-
+          store.set('Authorization',{
+            isLogin:true,
+            userName:values.username,
+            lastLoginTime:formatDate()
+          })
           message.success(res.msg);
           setTimeout(function() {
-            self.props.history.push('/search')
-          }, 1500);
-          
+            self.props.history.push('/music')
+          }, 1200);
+
         } else {
           message.error(res.msg);
         }
@@ -85,7 +79,7 @@ class Test extends React.Component {
                 {
                   getFieldDecorator('username', {
                     rules: [{ required: true, message: '请输入用户名' }],
-                  })(<Input size="large" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="用户名"/>)
+                  })(<Input size="large" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="用户名(admin)"/>)
                 }
             </Form.Item>
             <Form.Item>
@@ -97,7 +91,7 @@ class Test extends React.Component {
                       size="large"
                       prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                       type="password"
-                      placeholder="密码"
+                      placeholder="密码(111111)"
                     />,)
                 }
             </Form.Item>
