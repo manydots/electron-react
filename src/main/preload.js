@@ -1,5 +1,5 @@
 //预加载资源
-
+global.electron = require('electron');
 require('../../build/lib/vendors');
 require('../../build/index/chunks/vendor');
 require('../../build/index/chunks/common');

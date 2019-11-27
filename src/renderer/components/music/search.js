@@ -146,7 +146,7 @@ class Searchs extends React.Component {
                     <Button className="playMusic" onClick={this.onPlayer.bind(this,item.id)}>点击试听</Button>
                   </List.Item>
                 )} />
-                <BackTop visibilityHeight={50}><div className="ant-back-top-inner">UP</div></BackTop>
+                <BackTop style={{right:'50px'}} visibilityHeight={50}><div className="ant-back-top-inner">TOP</div></BackTop>
               <Pagination hideOnSinglePage={true} current={this.state.pageIndex} onChange={this.LoadPage.bind(this)} showQuickJumper pageSize={this.state.pageSize} total={this.state.pageTotal} />
           </div>
         )

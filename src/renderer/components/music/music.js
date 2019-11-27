@@ -4,6 +4,7 @@ import { Layout, Menu, Breadcrumb, Icon, Modal, Button } from 'antd';
 import store from 'store';
 import { axios } from 'utils/axios';
 import Search from './search';
+import TopMenu from '../base/menu';
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
@@ -51,7 +52,9 @@ class Music extends React.Component {
         cancelText: 'No',
         onOk() {
           console.log('OK');
-          store.set('Authorization',null);
+          let Authorizations = store.get('Authorization');
+          Authorizations.isLogin = false;
+          store.set('Authorization',Authorizations);
           self.props.history.push('/');
         },
         onCancel() {
@@ -62,6 +65,7 @@ class Music extends React.Component {
     render() {
         return (
           <div className="Music-Form">
+               <TopMenu />
                <Layout>
               <Header className="header">
                 <Menu

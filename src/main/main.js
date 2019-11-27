@@ -3,7 +3,6 @@ const {
   BrowserWindow,
   Menu,
   MenuItem,
-  globalShortcut,
   Notification,
   shell,
   autoUpdater,
@@ -185,10 +184,17 @@ if (process.platform === 'win32') {
 
 
 function createWindow() {
-  // Create the browser window.
+  //参数文档 https://cloud.tencent.com/developer/section/1115971
   mainWindow = new BrowserWindow({
     width: 990,
     height: 680,
+    title: '音乐test',
+    icon: path.join(__dirname, '../../build/favicon.ico'), // 窗口图标
+    //useContentSize: true,
+    transparent: true,
+    frame: false,
+    //darkTheme: true,
+    backgroundColor: '#ffffff',
     //autoHideMenuBar:true,
     webPreferences: {
       javascript: true,
@@ -205,7 +211,7 @@ function createWindow() {
   const entry = process.env.NODE_ENV === 'development' ? `http://localhost:8088` : `file://${__dirname}/index.html`;
   //console.log(`浏览器api地址,file://${__dirname}`);
   //console.log(process.env.NODE_ENV)
-  
+
 
 
   mainWindow.loadURL(url.format({
@@ -219,25 +225,10 @@ function createWindow() {
   });
 
   if (mainWindow) {
-
-    let isOpen = false;
-    //Ctrl+Shift+I
-    const ret = globalShortcut.register('CmdOrCtrl+F12', function() {
-      if (isOpen == false) {
-        mainWindow.webContents.openDevTools();
-        isOpen = true;
-      } else {
-        mainWindow.webContents.closeDevTools();
-        isOpen = false;
-      }
-      //console.log('CmdOrCtrl+U is pressed');
-    });
-
-    if (!ret) {
-      console.log('registration failed')
-    }
-    // 检查快捷键是否注册成功
-    //console.log(globalShortcut.isRegistered('CmdOrCtrl+R'))
+    const {
+      listenCommander
+    } = require('./command');
+    listenCommander(mainWindow);
   }
 };
 

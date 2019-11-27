@@ -4,7 +4,10 @@ var path = require('path');
 var fs = require('fs-extra');
 var buildPath = path.join(__dirname, '../build/lib');
 var config = require('./webpack.dev.config');
-var {build,findSync} = require('../src/utils/index');
+var {
+	build,
+	findSync
+} = require('../src/utils/index');
 
 module.exports = (env, argv) => {
 	if (argv.mode === 'production') {
@@ -16,6 +19,12 @@ module.exports = (env, argv) => {
 		//复制 /web/e-index.html 到 /build 文件夹下
 		config.plugins.push(new CopyWebpackPlugin([{
 			from: path.join(__dirname, '../web/e-index.html'),
+			to: path.join(__dirname, '../build')
+		}, {
+			from: path.join(__dirname, '../web/favicon.ico'),
+			to: path.join(__dirname, '../build')
+		}, {
+			from: path.join(__dirname, '../web/desktop.ico'),
 			to: path.join(__dirname, '../build')
 		}]))
 		if (!fs.existsSync(buildPath) || findSync(buildPath).length <= 2) {
