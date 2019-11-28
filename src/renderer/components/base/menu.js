@@ -1,7 +1,6 @@
 'use strict';
 import React from 'react';
-import { Icon } from 'antd';
-import './menu.less';
+import { Icon,BackTop } from 'antd';
 const electron = window.electron;
 
 class TopMenu extends React.Component {
@@ -34,6 +33,7 @@ class TopMenu extends React.Component {
     render() {
         return (
           <div className="TopMenu-Form pt5 pb5">
+              <BackTop style={{right:'50px'}} visibilityHeight={50}><div className="ant-back-top-inner">TOP</div></BackTop>
               <Icon className="TopMenuIcons TopMenuIcons-Close fr pointer mr10" type="close" onClick={this.onIpc.bind(this,'ipcClose')} />
               {
                 this.state.isFull == true ? (<Icon className="TopMenuIcons fr pointer mr10" type="fullscreen-exit" onClick={this.onIpc.bind(this,'ipcExitMax')} />):(<Icon className="TopMenuIcons fr pointer mr10" type="fullscreen" onClick={this.onIpc.bind(this,'ipcMax')} />)

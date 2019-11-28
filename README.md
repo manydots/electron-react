@@ -10,7 +10,7 @@
 
 [electron-builder配置](https://segmentfault.com/a/1190000017296201)
 
-### Details
+### details
 ```javascript
  	
  	1、使用JavaScript, HTML 和 CSS 构建跨平台的桌面应用
@@ -29,6 +29,8 @@
 ### update
 ```javascript
   
+  0.0.4 简单尝试react-router-dom5路由嵌套，也可用react-router3嵌套<Layout /> <Page />
+
   0.0.3 首页添加自定义关闭、最小化菜单，使用-webkit-app-region: drag,
   		-webkit-user-select:none拖拽;electron挂在全局，生产下模式使用；
 

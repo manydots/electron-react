@@ -4,10 +4,9 @@ import store from 'store';
 import { Form, Icon, Input, Button, Checkbox,message } from 'antd';
 import { formatDate } from 'utils/es';
 import { axios } from 'utils/axios';
-import TopMenu from '../base/menu';
 import './index.less';
 
-class Test extends React.Component {
+class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,8 +26,8 @@ class Test extends React.Component {
           isAutoLogin:true
         });
         setTimeout(function() {
-          message.loading('授权登录成功', 1);
-          self.props.history.push('/music');
+          message.loading('授权登录成功', 2);
+          self.props.history.push('/music/search');
         }, 1200);
       } else if (Author && Author.isLogin == false && Author.remember) {
         this.setState({
@@ -72,7 +71,7 @@ class Test extends React.Component {
           })
           message.success(res.msg);
           setTimeout(function() {
-            self.props.history.push('/music')
+            self.props.history.push('/music/search')
           }, 1200);
 
         } else {
@@ -85,7 +84,6 @@ class Test extends React.Component {
         //console.log(getFieldDecorator)
         return (
           <div className="LoginIn">
-            <TopMenu />
           <div className="LoginForm">
           
           <Form onSubmit={this.handleSubmit.bind(this)} className="login-form">
@@ -154,5 +152,5 @@ class Test extends React.Component {
 
 }
 
-const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(Test);
+const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(Login);
 export default WrappedNormalLoginForm;

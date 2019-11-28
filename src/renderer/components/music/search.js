@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import { Input,message,Pagination,List,Button,Spin,BackTop } from 'antd';
+import { Input,message,Pagination,List,Button,Spin,Breadcrumb } from 'antd';
 import { axios } from 'utils/axios';
 const { Search } = Input;
 import './search.less';
@@ -129,6 +129,10 @@ class Searchs extends React.Component {
 
         return (
           <div className="Search-Form">
+              <Breadcrumb style={{ margin: '16px 0' }}>
+                      <Breadcrumb.Item>首页</Breadcrumb.Item>
+                      <Breadcrumb.Item>搜索</Breadcrumb.Item>
+              </Breadcrumb>
               <Search placeholder="试试脑海中的歌曲名..." defaultValue={this.state.songsName} onChange={this.onInputChange.bind(this,'songsName')} enterButton="搜索" size="large" onSearch={this.onSearch.bind(this)} />
               <List
                 header={<div>共有 <span style={{color:'red'}}>{this.state.pageTotal > 1 ? this.state.pageTotal :0 }</span> 个结果</div>}
@@ -146,7 +150,6 @@ class Searchs extends React.Component {
                     <Button className="playMusic" onClick={this.onPlayer.bind(this,item.id)}>点击试听</Button>
                   </List.Item>
                 )} />
-                <BackTop style={{right:'50px'}} visibilityHeight={50}><div className="ant-back-top-inner">TOP</div></BackTop>
               <Pagination hideOnSinglePage={true} current={this.state.pageIndex} onChange={this.LoadPage.bind(this)} showQuickJumper pageSize={this.state.pageSize} total={this.state.pageTotal} />
           </div>
         )

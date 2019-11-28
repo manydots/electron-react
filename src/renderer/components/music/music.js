@@ -4,7 +4,6 @@ import { Layout, Menu, Breadcrumb, Icon, Modal, Button } from 'antd';
 import store from 'store';
 import { axios } from 'utils/axios';
 import Search from './search';
-import TopMenu from '../base/menu';
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
@@ -65,7 +64,6 @@ class Music extends React.Component {
     render() {
         return (
           <div className="Music-Form">
-               <TopMenu />
                <Layout>
               <Header className="header">
                 <Menu
