@@ -65,8 +65,10 @@ service.interceptors.request.use(
     config.cancelToken = new CancelToken((cancel) => {
       pending[request] = cancel;
     });
-    let apiType = config.data.apiType || 'devAPI';
-    config.url = isEnv(apiType) + config.url;
+    if (config.data) {
+      let apiType = config.data.apiType || 'devAPI';
+      config.url = isEnv(apiType) + config.url;
+    }
     //console.log(config)
     return config;
   },

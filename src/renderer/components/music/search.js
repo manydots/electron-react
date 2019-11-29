@@ -135,9 +135,9 @@ class Searchs extends React.Component {
               </Breadcrumb>
               <Search placeholder="试试脑海中的歌曲名..." defaultValue={this.state.songsName} onChange={this.onInputChange.bind(this,'songsName')} enterButton="搜索" size="large" onSearch={this.onSearch.bind(this)} />
               <List
+                style={{margin:'20px auto'}}
                 header={<div>共有 <span style={{color:'red'}}>{this.state.pageTotal > 1 ? this.state.pageTotal :0 }</span> 个结果</div>}
                 footer={<div>最后一行啦还瞅啥~</div>}
-                className="Search-List"
                 bordered
                 locale={{emptyText:'暂无数据'}}
                 loading={this.state.loading}

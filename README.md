@@ -22,7 +22,7 @@
  		C:\Users\用户\AppData\Local\electron-builder\Cache\nsis\nsis-3.0.4
 		C:\Users\用户\AppData\Local\electron-builder\Cache\winCodeSign\winCodeSign-2.4.0
 
-	4、electron-builder打包前，执行2次 npm run dev:webpack(资源更改打包时，不拷贝资源)
+	4、electron-builder打包前，执行2次 npm run dev:webpack(资源更改打包时，不拷贝资源，*开发不拷贝资源)
 
 ``` 
 

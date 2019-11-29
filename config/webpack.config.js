@@ -17,7 +17,7 @@ module.exports = (env, argv) => {
 		config.plugins.push(new CleanWebpackPlugin());
 
 		//复制 /web/e-index.html 到 /build 文件夹下
-		config.plugins.push(new CopyWebpackPlugin([{
+		var statics = [{
 			from: path.join(__dirname, '../web/e-index.html'),
 			to: path.join(__dirname, '../build')
 		}, {
@@ -26,9 +26,11 @@ module.exports = (env, argv) => {
 		}, {
 			from: path.join(__dirname, '../web/desktop.ico'),
 			to: path.join(__dirname, '../build')
-		}]))
+		}];
+		config.plugins.push(new CopyWebpackPlugin(statics));
 		if (!fs.existsSync(buildPath) || findSync(buildPath).length <= 2) {
-			build();
+			//不拷贝资源
+			//build();
 		};
 
 	} else if (argv.mode === 'development') {
@@ -57,7 +59,8 @@ module.exports = (env, argv) => {
 		};
 
 		if (!fs.existsSync(buildPath) || findSync(buildPath).length <= 2) {
-			build();
+			//开发模式打包资源，不需要拷贝资源并引入到页面
+			//build();
 		};
 	};
 	return config;

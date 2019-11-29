@@ -11,6 +11,7 @@ const { Header, Content, Footer, Sider } = Layout;
 const { confirm } = Modal;
 
 class WebBase extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -23,17 +24,7 @@ class WebBase extends React.Component {
     //提前处理匹配菜单栏
     if (this.props && this.props.location.pathname) {
       let pathname = this.props.location.pathname;
-      if (pathname.slice(1).split('/').length == 2) {
-        this.setState({
-          selectedKeys: [pathname.slice(1).split('/')[1]],
-          openKeys: [pathname.slice(1).split('/')[0]],
-        });
-      } else {
-        this.setState({
-          selectedKeys: [pathname.slice(1).split('/')[0]],
-          openKeys: [],
-        });
-      }
+      this.onInitDefaultMenu(pathname);
     };
   }
   componentDidMount() {
@@ -43,6 +34,11 @@ class WebBase extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
       let pathname = nextProps.location.pathname;
+      this.onInitDefaultMenu(pathname);
+    }
+  }
+  onInitDefaultMenu(pathname) {
+    if (pathname) {
       if (pathname.slice(1).split('/').length == 2) {
         this.setState({
           selectedKeys: [pathname.slice(1).split('/')[1]],
@@ -113,11 +109,14 @@ class WebBase extends React.Component {
       console.log('this.props.history undefined')
     }
   }
+  onOpenChange(openKeys) {
+    console.log(openKeys)
+  }
   render() {
     //console.log(this.state)
     return (
       <div className="Music-Form">
-               <Layout>
+            <Layout>
               <Header className="header">
                 <Menu
                   theme="dark"
@@ -139,6 +138,7 @@ class WebBase extends React.Component {
                       mode="inline"
                       defaultSelectedKeys={this.state.selectedKeys}
                       defaultOpenKeys={this.state.openKeys}
+                      onOpenChange={this.onOpenChange.bind(this)}
                       style={{ height: '100%' }} >
                       <Menu.Item key="notice" onClick={this.goPath.bind(this,'/notice')}>
                         <Icon type="notification" />
@@ -147,7 +147,8 @@ class WebBase extends React.Component {
                       <SubMenu
                         key="music"
                         title={<span><Icon type="menu-fold" />常用菜单</span>} >
-                        <Menu.Item key="search" onClick={this.goPath.bind(this,'/music/search')}>搜索音乐</Menu.Item>
+                        <Menu.Item key="recommend"><Link to="/music/recommend">每日推荐</Link></Menu.Item>
+                        <Menu.Item key="search"><Link to="/music/search">搜索音乐</Link></Menu.Item>
                         <Menu.Item key="hot" onClick={this.goPath.bind(this,'/music/hot')}>关键词热搜</Menu.Item>
                       </SubMenu>
                       <SubMenu
