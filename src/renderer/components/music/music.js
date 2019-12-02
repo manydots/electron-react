@@ -13,11 +13,11 @@ class Music extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-           userName:store.get('Authorization') ? store.get('Authorization').userName : 'guest'
+           userName:store.get('i') ? store.get('i').profile.nickname : 'guest'
         };
     }
     componentDidMount() {
-        //console.log(store.get('Authorization'))
+        console.log(store.get('i'))
     }
     shouldComponentUpdate() {
         return true;

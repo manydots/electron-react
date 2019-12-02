@@ -1,6 +1,6 @@
 {
   "name": "jeea",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "使用JavaScript, HTML 和 CSS 构建跨平台的桌面应用",
   "main": "./src/main/main.js",
   "sideEffects": false,

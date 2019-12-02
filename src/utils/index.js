@@ -2,6 +2,13 @@ let fs = require('fs-extra');
 let globby = require('globby');
 let path = require('path');
 
+function basePath(isFlag){
+    if(isFlag){
+        return '/';
+    }else{
+        return '';
+    }
+}
 function debounce(fn, delay, immediate) {
 	let timer;
 	return function() {
@@ -70,5 +77,6 @@ function findSync(startPath) {
 module.exports = {
 	build: build,
 	findSync: findSync,
-	debounce: debounce
+	debounce: debounce,
+	basePath:basePath
 };

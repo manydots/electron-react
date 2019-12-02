@@ -29,6 +29,8 @@
 ### update
 ```javascript
   
+  0.0.6 登录调用网易云接口(手机号) 查看歌单收藏
+
   0.0.4 简单尝试react-router-dom5路由嵌套，也可用react-router3嵌套<Layout /> <Page />
 
   0.0.3 首页添加自定义关闭、最小化菜单，使用-webkit-app-region: drag,

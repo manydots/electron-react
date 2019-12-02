@@ -5,6 +5,7 @@ import { Route, Switch, Redirect,withRouter,Link} from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Icon, Modal, Button } from 'antd';
 import store from 'store';
 import { axios } from 'utils/axios';
+import { basePath} from 'utils/es';
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
@@ -15,7 +16,7 @@ class WebBase extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: store.get('Authorization') ? store.get('Authorization').userName : 'guest',
+      userName: store.get('Authorization') ? store.get('Authorization').i.profile.nickname : 'guest',
       openKeys:[],
       selectedKeys:[]
     };
@@ -28,7 +29,7 @@ class WebBase extends React.Component {
     };
   }
   componentDidMount() {
-    //console.log(store.get('Authorization'))
+    //console.log(store.get('Authorization').i)
     //console.log(this.props)
   }
   componentWillReceiveProps(nextProps) {
@@ -95,7 +96,7 @@ class WebBase extends React.Component {
         let Authorizations = store.get('Authorization');
         Authorizations.isLogin = false;
         store.set('Authorization', Authorizations);
-        self.props.history.push('/');
+        self.props.history.push(`${basePath()}`);
       },
       onCancel() {
         console.log('Cancel');
@@ -140,24 +141,29 @@ class WebBase extends React.Component {
                       defaultOpenKeys={this.state.openKeys}
                       onOpenChange={this.onOpenChange.bind(this)}
                       style={{ height: '100%' }} >
-                      <Menu.Item key="notice" onClick={this.goPath.bind(this,'/notice')}>
+                      <Menu.Item key="notice" onClick={this.goPath.bind(this,`${basePath()}/notice`)}>
                         <Icon type="notification" />
                         <span>系统公告</span>
                       </Menu.Item>
                       <SubMenu
+                        key="user"
+                        title={<span><Icon type="audio" />我的歌单</span>} >
+                        <Menu.Item key="playlist" onClick={this.goPath.bind(this,`${basePath()}/user/playlist`)}>我的收藏</Menu.Item>
+                      </SubMenu>
+                      <SubMenu
                         key="music"
                         title={<span><Icon type="menu-fold" />常用菜单</span>} >
-                        <Menu.Item key="recommend"><Link to="/music/recommend">每日推荐</Link></Menu.Item>
-                        <Menu.Item key="search"><Link to="/music/search">搜索音乐</Link></Menu.Item>
-                        <Menu.Item key="hot" onClick={this.goPath.bind(this,'/music/hot')}>关键词热搜</Menu.Item>
+                        <Menu.Item key="recommend"><Link to={`${basePath()}/music/recommend`}>每日推荐</Link></Menu.Item>
+                        <Menu.Item key="search"><Link to={`${basePath()}/music/search`}>搜索音乐</Link></Menu.Item>
+                        <Menu.Item key="hot" onClick={this.goPath.bind(this,`${basePath()}/music/hot`)}>关键词热搜</Menu.Item>
                       </SubMenu>
                       <SubMenu
                         key="other"
                         title={<span><Icon type="edit" />占位目录</span>} >
-                        <Menu.Item key="other1" onClick={this.goPath.bind(this,'/other/other1')}>other-1</Menu.Item>
-                        <Menu.Item key="other2" onClick={this.goPath.bind(this,'/other/other2')}>other-2-error</Menu.Item>
+                        <Menu.Item key="other1" onClick={this.goPath.bind(this,`${basePath()}/other/other1`)}>other-1</Menu.Item>
+                        <Menu.Item key="other2" onClick={this.goPath.bind(this,`${basePath()}/other/other2`)}>other-2-error</Menu.Item>
                       </SubMenu>
-                      <Menu.Item key="error" onClick={this.goPath.bind(this,'/error')}>
+                      <Menu.Item key="error" onClick={this.goPath.bind(this,`${basePath()}/error`)}>
                         <Icon type="rollback" />
                         <span>404</span>
                       </Menu.Item>

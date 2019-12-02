@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, BrowserRouter,Switch,HashRouter,hashHistory,Redirect} from 'react-router-dom';
 import store from 'store';
-import { renderHtml } from 'utils/es';
+import { renderHtml,basePath} from 'utils/es';
 import './default.less';
 //import AsyncIndex from './components/login/login';
 //桌面应用这里使用HashRouter
@@ -31,7 +31,7 @@ export default class BasicRoute extends React.Component{
     let Author = store.get('Authorization');
     //简单弱验证
     if(!Author || !Author.isLogin){
-      window.location.hash = '#/';
+      window.location.hash = `#${basePath(true)}`;
     }
   }
   render() {
@@ -39,7 +39,7 @@ export default class BasicRoute extends React.Component{
       <HashRouter history={hashHistory}>
         <Switch>
           <React.Suspense fallback={renderHtml()}>
-            <Route path="/" render={()=>
+            <Route path={basePath(true)} render={()=>
                <AsyncLayout>
                    {/*其他Route*/}
                </AsyncLayout>

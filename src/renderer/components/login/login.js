@@ -2,7 +2,7 @@
 import React from 'react';
 import store from 'store';
 import { Form, Icon, Input, Button, Checkbox,message } from 'antd';
-import { formatDate } from 'utils/es';
+import { formatDate,basePath } from 'utils/es';
 import { axios } from 'utils/axios';
 import './index.less';
 
@@ -21,18 +21,18 @@ class Login extends React.Component {
       //简单弱验证
       if (Author && Author.isLogin) {
         this.setState({
-          rememberUserName: Author.userName,
-          rememberPassWord: Author.passWord,
+          rememberUserName: Author.phone,
+          rememberPassWord: Author.password,
           isAutoLogin:true
         });
         setTimeout(function() {
           message.loading('授权登录成功', 2);
-          self.props.history.push('/music/search');
+          self.props.history.push(`${basePath()}/user/playlist`);
         }, 1200);
       } else if (Author && Author.isLogin == false && Author.remember) {
         this.setState({
-          rememberUserName: Author.userName,
-          rememberPassWord: Author.passWord
+          rememberUserName: Author.phone,
+          rememberPassWord: Author.password
         })
       }
     }
@@ -52,26 +52,32 @@ class Login extends React.Component {
     onSubmit(values) {
       let self = this;
       axios({
-        method: 'post',
-        url: '/commonuser/login',
+        method: 'get',
+        url: '/v1/login/cellphone',
         data: {
-          apiType: 'devAPI',
-          username: values.username,
+          apiType: 'musicAPI',
+          // username: values.username,
+          // password: values.password,
+          // captcha: values.captcha
+        },
+        params:{
+          phone: values.phone,
           password: values.password,
-          captcha: values.captcha
         }
       }).then(function(res) {
-        if (res.code == 0) {
+        if (res.code == 200) {
           store.set('Authorization',{
             isLogin:true,
-            userName:values.username,
-            passWord:values.password,
+            phone: values.phone,
+            password: values.password,
             remember:values.remember,
-            lastLoginTime:formatDate()
+            lastLoginTime:formatDate(),
+            i:res
           })
-          message.success(res.msg);
+          //console.log(res)
+          message.success('登录成功');
           setTimeout(function() {
-            self.props.history.push('/music/search')
+            self.props.history.push(`${basePath()}/user/playlist`);
           }, 1200);
 
         } else {
@@ -88,19 +94,19 @@ class Login extends React.Component {
           
           <Form onSubmit={this.handleSubmit.bind(this)} className="login-form">
             <Form.Item className="tac"  style={{ fontSize: '26px'}}>
-                <Icon type="html5" style={{ fontSize: '26px', color: '#08c' }} /> 公共平台
+                <Icon type="customer-service" style={{ fontSize: '26px', color: '#08c' }} /> 网易云音乐
             </Form.Item>
             <Form.Item>
                 {
-                  getFieldDecorator('username', {
-                    rules: [{ required: true, message: '请输入用户名'}],
+                  getFieldDecorator('phone', {
+                    rules: [{ required: true, message: '请输入手机号'}],
                     initialValue:this.state.rememberUserName
                   })(
                   <Input 
                     size="large" 
                     disabled={this.state.isAutoLogin} 
                     prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} 
-                    placeholder="用户名(admin)" />)
+                    placeholder="手机号(网易云登录手机号)" />)
                 }
             </Form.Item>
             <Form.Item>
@@ -114,7 +120,7 @@ class Login extends React.Component {
                       size="large"
                       prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                       type="password"
-                      placeholder="密码(111111)"
+                      placeholder="密码(网易云登录密码)"
                     />,)
                 }
             </Form.Item>

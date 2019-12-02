@@ -21,7 +21,7 @@ module.exports = {
     },
     devServer: {
         contentBase: path.join(__dirname, "../web/"), //编译好的文件放在这里
-        host: 'localhost',
+        host: '127.0.0.1',
         port: 8088,
         inline: true,
         compress: true,

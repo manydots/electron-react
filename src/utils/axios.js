@@ -6,7 +6,7 @@ const pending = {};
 const CancelToken = axios.CancelToken;
 const service = axios.create({
   baseURL: process.env.BASE_API, //node环境的不同，对应不同的baseURL
-  timeout: 5000, // 请求的超时时间
+  timeout: 10000, // 请求的超时时间
   //header默认的Content-Type是'application/json;charset=UTF-8'
   // headers: {  
   //   "Content-Type": "application/x-www-form-urlencoded"
