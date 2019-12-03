@@ -10,6 +10,8 @@
 
 [electron-builder配置](https://segmentfault.com/a/1190000017296201)
 
+[web端演示https://web.jeeas.cn](https://web.jeeas.cn)
+
 ### details
 ```javascript
  	

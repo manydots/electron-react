@@ -65,6 +65,7 @@
     "clean-webpack-plugin": "^2.0.2",
     "copy-webpack-plugin": "~5.0.4",
     "cross-env": "^6.0.3",
+    "crypto-js": "^3.1.9-1",
     "css-loader": "~3.1.0",
     "electron": "~7.1.1",
     "electron-builder": "~22.1.0",

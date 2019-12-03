@@ -5,6 +5,7 @@ import { Route, Switch,Redirect} from 'react-router-dom';
 import { basePath} from 'utils/es';
 import TopMenu from './menu';
 import './layout.less';
+const electron = window.electron;
 
 //部分路由不可以使用异步加载 会直接进入到 <Redirect to="/error" />
 let AsyncLogin = React.lazy(() => import('../login/login'));
@@ -34,7 +35,7 @@ class Layout extends React.Component {
   }
   
   componentDidMount(){
-     //console.log(this.props)
+    //console.log(electron)
   }
   shouldComponentUpdate() {
         return true; 
@@ -42,7 +43,10 @@ class Layout extends React.Component {
   render() {
     return (
       <div className="react-router-dom-containers">
-          <TopMenu />
+          {
+            electron && electron != null ? (<TopMenu />):null
+          }
+          
           <Switch>
               <Route path={`${basePath()}/login`} component={AsyncLogin} exact={true} />
               <Route path={`${basePath(true)}`} component={AsyncLogin} exact={true} />

@@ -4,6 +4,7 @@ import store from 'store';
 import { Form, Icon, Input, Button, Checkbox,message } from 'antd';
 import { formatDate,basePath } from 'utils/es';
 import { axios } from 'utils/axios';
+import { Encrypt, Decrypt} from 'utils/crypto';
 import './index.less';
 
 class Login extends React.Component {
@@ -16,13 +17,14 @@ class Login extends React.Component {
         };
     }
     componentDidMount() {
+      
       let self = this;
       let Author = store.get('Authorization');
       //简单弱验证
       if (Author && Author.isLogin) {
         this.setState({
-          rememberUserName: Author.phone,
-          rememberPassWord: Author.password,
+          rememberUserName: Decrypt(Author.phone),
+          rememberPassWord: Decrypt(Author.password),
           isAutoLogin:true
         });
         setTimeout(function() {
@@ -31,8 +33,8 @@ class Login extends React.Component {
         }, 1200);
       } else if (Author && Author.isLogin == false && Author.remember) {
         this.setState({
-          rememberUserName: Author.phone,
-          rememberPassWord: Author.password
+          rememberUserName: Decrypt(Author.phone),
+          rememberPassWord: Decrypt(Author.password)
         })
       }
     }
@@ -68,10 +70,11 @@ class Login extends React.Component {
         if (res.code == 200) {
           store.set('Authorization',{
             isLogin:true,
-            phone: values.phone,
-            password: values.password,
+            phone: Encrypt(values.phone),
+            password: Encrypt(values.password),
             remember:values.remember,
             lastLoginTime:formatDate(),
+            salt:res.account.salt,
             i:res
           })
           //console.log(res)

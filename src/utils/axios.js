@@ -12,7 +12,7 @@ const service = axios.create({
   //   "Content-Type": "application/x-www-form-urlencoded"
   // },
   crossDomain: true,
-  withCredentials: true, // 允许携带cookie
+  withCredentials: true, // true允许携带cookie（设置true时，服务端需要单独配置）,false不携带
   transformRequest: [function(data) {
     //发送请求前处理request的数据
     //console.log(data)
