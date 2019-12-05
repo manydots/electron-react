@@ -1,5 +1,11 @@
 import axios from 'axios';
 import store from 'store';
+import {
+  isEnv,
+  isLocal,
+  removePending,
+  getRequestIdentify
+} from './es';
 
 //创建axios实例
 const pending = {};
@@ -24,36 +30,6 @@ const service = axios.create({
   }]
 })
 
-function removePending(key, isRequest) {
-  if (pending[key] && isRequest) {
-    pending[key]('取消重复请求');
-    //throw new axios.Cancel('cancel request');
-  }
-  delete pending[key]
-}
-
-function getRequestIdentify(config, isReuest) {
-  let url = config.url;
-  //console.log(url)
-  if (isReuest) {
-    url = config.baseURL + config.url.substring(1, config.url.length)
-  }
-  return config.method === 'get' ? encodeURIComponent(url + JSON.stringify(config.params)) : encodeURIComponent(config.url + JSON.stringify(config.data))
-}
-
-function isEnv(apiType) {
-  if (process.env.NODE_ENV === 'development') {
-    return `/${apiType}`;
-  } else if (process.env.NODE_ENV === 'production') {
-    if (apiType === 'devAPI') {
-      return 'http://dev.jeeas.cn';
-    } else if (apiType === 'musicAPI') {
-      return 'https://music.jeeas.cn';
-    }
-
-  }
-}
-
 //request拦截器
 service.interceptors.request.use(
   config => {
@@ -61,13 +37,23 @@ service.interceptors.request.use(
     //console.log(store.get('Authorization'));
     let request = getRequestIdentify(config, true);
     //console.log(request)
-    removePending(request, true);
+    removePending(pending, request, true);
     config.cancelToken = new CancelToken((cancel) => {
       pending[request] = cancel;
     });
+
     if (config.data) {
       let apiType = config.data.apiType || 'devAPI';
       config.url = isEnv(apiType) + config.url;
+    }
+    let connection = '&';
+    if (config.url.indexOf('?') < 0) {
+      connection = '?';
+    };
+    if (isLocal()) {
+      config.url += `${connection}from=dev`;
+    } else {
+      config.url += `${connection}from=pro`;
     }
     //console.log(config)
     return config;

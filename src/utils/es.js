@@ -24,13 +24,39 @@ function debounce(fn, delay, immediate) {
 	}
 };
 
-function isEnv() {
-	if (process.env.NODE_ENV === 'development') {
-		return '/devAPI';
-	} else if (process.env.NODE_ENV === 'production') {
-		return 'http://dev.jeeas.cn';
-	}
-};
+function isLocal() {
+    return process.env.NODE_ENV === 'development' ? true : false;
+}
+
+function isEnv(apiType) {
+    if (process.env.NODE_ENV === 'development') {
+        return `/${apiType}`;
+    } else if (process.env.NODE_ENV === 'production') {
+        if (apiType === 'devAPI') {
+            return 'http://dev.jeeas.cn';
+        } else if (apiType === 'musicAPI') {
+            return 'https://music.jeeas.cn';
+        }
+
+    }
+}
+
+function removePending(pending, key, isRequest) {
+    if (pending[key] && isRequest) {
+        pending[key]('取消重复请求');
+        //throw new axios.Cancel('cancel request');
+    }
+    delete pending[key]
+}
+
+function getRequestIdentify(config, isReuest) {
+  let url = config.url;
+  //console.log(url)
+  if (isReuest) {
+    url = config.baseURL + config.url.substring(1, config.url.length)
+  }
+  return config.method === 'get' ? encodeURIComponent(url + JSON.stringify(config.params)) : encodeURIComponent(config.url + JSON.stringify(config.data))
+}
 
 function renderHtml() {
   return (<div className="spinner">
@@ -113,5 +139,8 @@ export {
 	renderHtml,
 	checkPath,
     formatDate,
-    basePath
+    basePath,
+    isLocal,
+    removePending,
+    getRequestIdentify
 };
